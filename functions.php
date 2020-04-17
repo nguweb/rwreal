@@ -132,13 +132,27 @@ function rwreal_scripts() {
 	wp_enqueue_style('rwreal-fontawesome', get_template_directory_uri() .'/fonts/fontawesome/css/fontawesome.min.css' );
 
 	wp_enqueue_style('rwreal', get_stylesheet_uri() );
+
 	wp_register_script('popper',
-	'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js')
+	'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js', false, '', true);
+	wp_enqueue_script('popper');
 
 	wp_enqueue_style( 'rwreal-style', get_stylesheet_uri(), array(), _S_VERSION );
 	wp_style_add_data( 'rwreal-style', 'rtl', 'replace' );
 
-	wp_enqueue_script( 'rwreal-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
+/**
+  * Implemented Bootstrap navigation, no need to use below script.
+	*
+  * wp_enqueue_script( 'rwreal-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
+	*/
+
+ 	wp_enqueue_script( 'rwreal-tether', get_template_directory_uri() . '/src/js/tether.js' , array(), _S_VERSION, true );
+
+	wp_enqueue_script( 'rwreal-bootstrap', get_template_directory_uri() . '/src/js/bootstrap.min.js' , array(), _S_VERSION, true );
+
+	wp_enqueue_script( 'rwreal-bootstrap-hover', get_template_directory_uri() . '/src/js/bootstrap-hover.js' , array(), _S_VERSION, true );
+
+	wp_enqueue_script( 'rwreal-nav-scroll', get_template_directory_uri() . '/src/js/nav-scroll.js' , array(), _S_VERSION, true );
 
 	wp_enqueue_script( 'rwreal-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), _S_VERSION, true );
 
@@ -167,6 +181,16 @@ require get_template_directory() . '/inc/template-functions.php';
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
+
+/**
+ * Widgets File.
+ */
+require get_template_directory() . '/inc/widgets.php';
+
+/**
+ * Bootstrap Navwalker File.
+ */
+require get_template_directory() . '/inc/bootstrap-wp-navwalker.php';
 
 /**
  * Load Jetpack compatibility file.
