@@ -50,7 +50,7 @@ if ( ! function_exists( 'rwreal_setup' ) ) :
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus(
 			array(
-				'menu-1' => esc_html__( 'Primary', 'rwreal' ),
+				'primary' => esc_html__( 'Primary', 'rwreal' ),
 			)
 		);
 
@@ -104,6 +104,11 @@ if ( ! function_exists( 'rwreal_setup' ) ) :
 endif;
 add_action( 'after_setup_theme', 'rwreal_setup' );
 
+function rwreal_add_editor_style() {
+	add_editor_style('dist/css/editor-style.css');
+}
+add_action('admin_init', 'devwp_add_editor_style');
+
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
  *
@@ -115,34 +120,21 @@ function rwreal_content_width() {
 	// This variable is intended to be overruled from themes.
 	// Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-	$GLOBALS['content_width'] = apply_filters( 'rwreal_content_width', 640 );
+	$GLOBALS['content_width'] = apply_filters( 'rwreal_content_width', 1140 );
 }
 add_action( 'after_setup_theme', 'rwreal_content_width', 0 );
-
-/**
- * Register widget area.
- *
- * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
- */
-function rwreal_widgets_init() {
-	register_sidebar(
-		array(
-			'name'          => esc_html__( 'Sidebar', 'rwreal' ),
-			'id'            => 'sidebar-1',
-			'description'   => esc_html__( 'Add widgets here.', 'rwreal' ),
-			'before_widget' => '<section id="%1$s" class="widget %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<h2 class="widget-title">',
-			'after_title'   => '</h2>',
-		)
-	);
-}
-add_action( 'widgets_init', 'rwreal_widgets_init' );
 
 /**
  * Enqueue scripts and styles.
  */
 function rwreal_scripts() {
+	wp_enqueue_style('rwreal-bs-css', get_template_directory_uri() .'/dist/css/bootstap.min.css' );
+	wp_enqueue_style('rwreal-fontawesome', get_template_directory_uri() .'/fonts/fontawesome/css/fontawesome.min.css' );
+
+	wp_enqueue_style('rwreal', get_stylesheet_uri() );
+	wp_register_script('popper',
+	'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js')
+
 	wp_enqueue_style( 'rwreal-style', get_stylesheet_uri(), array(), _S_VERSION );
 	wp_style_add_data( 'rwreal-style', 'rtl', 'replace' );
 
